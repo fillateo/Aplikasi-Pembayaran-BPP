@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	<div class="analytics-sparkle-line reso-mg-b-30">
+		<div class="analytics-content">
+			<h1>Ubah Pembayaran</h1>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item"><h5>Nama &nbsp; &nbsp; : Jait Ramadandi Jeke</h5></li>
+				<li class="list-group-item"><h5>kelas &nbsp; &nbsp; &nbsp;: XII</h5></li>
+				<li class="list-group-item"><h5>Jurusan : Teknik Komputer dan Jaringan</h5></li>
+			</ul>
+			<form method="POST" action="">
+				<h6>{{ form.errors }}</h6>
+				<br>
+				{% csrf_token %}
+				<div class="form-group-inner data-custon-pick" id="data_4">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+							<label class="login2 pull-right pull-right-pro">Pembayaran untuk bulan</label>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+							<div class="input-group date">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+								<input type="text" name="{{ form.bulan_yang_dibayar.name }}" value="{{ form.instance.bulan_yang_dibayar|date:'m/Y' }}" required="" class="form-control" autocomplete="off">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group-inner data-custon-pick" id="tanggal">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+							<label class="login2 pull-right pull-right-pro">{{ form.tanggal_pembayaran.label }}</label>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+							<div class="input-group date">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								<input type="text" name="{{ form.tanggal_pembayaran.name }}" value="{{ form.instance.tanggal_pembayaran|date:'d/m/Y' }}" required="" class="form-control" autocomplete="off">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group-inner">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+							<label class="login2 pull-right pull-right-pro">Nominal</label>
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+							<input autocomplete="off" name="{{ form.nominal_yang_dibayar.name }}" required="" type="text" class="form-control" id="rupiah" data-a-sign="Rp. " data-a-dec="," data-a-sep="." value="{{ form.instance.nominal_yang_dibayar }}">
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group-inner ml-3">
+					<button class="btn btn-custon-three btn-primary" style="margin-left:51px;" type="submit">Ubah</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock content %}

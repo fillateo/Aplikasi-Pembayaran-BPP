@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block breadcrumb %}
+<li class="breadcrumb-item" aria-current="page">Kelola Data</li>
+<li class="breadcrumb-item active"> Kelas & Tambah kelas</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="product-status mg-b-15">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="product-status-wrap drp-lst">
+					<h4>List kelas</h4>
+					<div class="add-product">
+					</div>
+					<div class="asset-inner">
+						<table>
+							<tr>
+								<th>No</th>
+								<th>kelas</th>
+								<th>Action</th>
+							</tr>
+							{% for kelas in daftar_kelas %}
+							<tr>
+								<td>{{ forloop.counter }}.</td>
+								<td>{{ kelas.nama }}</td>
+								<td>
+									<a href="{% url "app_bpp:ubah_kelas" kelas.pk %}" title="Ubah" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+									<a onclick="return confirm('Hapus kelas?')" href="{% url "app_bpp:hapus_kelas" kelas.pk %}" title="Hapus" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+								</td>
+							</tr>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="sparkline12-list">
+					<div class="sparkline12-hd">
+						<div class="main-sparkline12-hd">
+							<h1>{{ header }}</h1>
+						</div>
+					</div>
+					<div class="sparkline12-graph">
+						<div class="basic-login-form-ad">
+							<div class="row">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<h4>Tambah kelas</h4>
+									<div class="all-form-element-inner">
+										<form method="POST" action="{% url "app_bpp:tambah_kelas" %}">
+											{% csrf_token %}
+											<div class="form-group-inner">
+												<div class="row">
+													<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+														<label class="login2 pull-right pull-right-pro"> Kelas </label>
+													</div>
+													<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+														{{ form.nama }}
+													</div>
+												</div>
+											</div>
+											<div class="form-group-inner">
+												<div class="login-btn-inner">
+													<div class="row">
+														<div class="col-lg-3"></div>
+														<div class="col-lg-9">
+															<div class="login-horizental cancel-wp pull-left form-bc-ele">
+																<button class="btn btn-sm btn-primary login-submit-cs" type="submit">{% if form.nama.value is not None %}
+																	Ubah
+																	{% else %}
+																	Tambah
+																{% endif %}</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											{# error messege #}
+											{% if messages %}												
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-left: 170px;">
+												<div class="alert-icon shadow-inner wrap-alert-b">
+													{% for message in messages %}
+													{% if message.tags == 'success' %}						
+													<div class="alert alert-success alert-success-style1 alert-st-bg">
+														<button type="button" class="close sucess-op" data-dismiss="alert" aria-label="Close">
+															<span class="icon-sc-cl" aria-hidden="true">×</span>
+														</button>
+														<i class="fa fa-check edu-checked-pro admin-check-pro admin-check-pro-clr" aria-hidden="true"></i>
+														<p><strong>{{ message }}</strong> berhasil ditambahkan!</p>
+													</div>
+													{% elif message.tags == 'error' %}
+													<div class="alert alert-danger alert-mg-b alert-success-style4 alert-st-bg3">
+														<button type="button" class="close sucess-op" data-dismiss="alert" aria-label="Close">
+															<span class="icon-sc-cl" aria-hidden="true">×</span>
+														</button>
+														<i class="fa fa-times edu-danger-error admin-check-pro admin-check-pro-clr3" aria-hidden="true"></i>
+														<p><strong>Error!</strong> {{ message }}</p>
+													</div>
+													{% endif %}
+													{% endfor %}
+												</div>
+											</div>
+											{% endif %}
+											{# end error messege #}
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}}

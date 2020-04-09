@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url "app_bpp:home" %}">Pembayaran BPP</a></li>
+<li class="breadcrumb-item active" aria-current="page">Detail & Pembayaran</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="analytics-sparkle-area">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="analytics-sparkle-line reso-mg-b-30">
+					<div class="analytics-content">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><h5>Nama &nbsp; &nbsp; : {{ siswa.nama }}</h5></li>
+							<li class="list-group-item"><h5>kelas &nbsp; &nbsp; &nbsp;: {{ siswa.kelas }}</h5></li>
+							<li class="list-group-item"><h5>Jurusan : {{ siswa.jurusan }}</h5></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="analytics-sparkle-line reso-mg-b-30">
+					<div class="analytics-content">
+						<h1>Lakukan pembayaran</h1>
+						<form method="POST" action="">
+							<h6>{{ form.errors }}</h6>
+							<br>
+							{% csrf_token %}
+							<div class="form-group-inner data-custon-pick" id="data_4">
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										<label class="login2 pull-right pull-right-pro">Pembayaran untuk bulan</label>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+										<div class="input-group date">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>								
+											<input type="text" name="{{ form.bulan_yang_dibayar.name }}" required="" class="form-control" autocomplete="off">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group-inner data-custon-pick" id="tanggal">
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										<label class="login2 pull-right pull-right-pro">{{ form.tanggal_pembayaran.label }}</label>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+										<div class="input-group date">
+											<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+											<input type="text" name="{{ form.tanggal_pembayaran.name }}" required="" class="form-control" autocomplete="off">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group-inner">
+								<div class="row">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+										<label class="login2 pull-right pull-right-pro">Nominal</label>
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+										<input autocomplete="off" name="{{ form.nominal_yang_dibayar.name }}" required="" type="text" class="form-control" id="rupiah" data-a-sign="Rp. " data-a-dec="," data-a-sep=".">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group-inner ml-3">
+								<button class="btn btn-custon-three btn-primary" style="margin-left:51px;" type="submit">Proses</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="product-sales-area mg-tb-30">
+	<div class="container-fluid">
+		<div class="row">
+			{# datatable #}
+			<div class="data-table-area mg-b-15 mg-t-20">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="sparkline13-list">
+								<div class="sparkline13-hd">
+									<div class="main-sparkline13-hd">
+										<h1>Riwayat <span class="table-project-n">Pembayaran</span> </h1>
+									</div>
+								</div>
+								<div class="sparkline13-graph">
+									<div class="datatable-dashv1-list custom-datatable-overright">
+										<div id="toolbar">
+											<select class="form-control dt-tb">
+												<option value="">Export Basic</option>
+												<option value="all">Export All</option>
+												<option value="selected">Export Selected</option>
+											</select>
+										</div>
+										<table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
+										data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+										<thead>
+											<tr>
+												<th data-field="state" data-checkbox="true"></th>
+												<th data-field="name">Bulan yang telah dibayar</th>
+												<th data-field="email">Nominal (Rp)</th>
+												<th data-field="phone">Tanggal Pembayaran</th>
+												<th data-field="date">Act.</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for pembayaran in riwayat_pembayaran %}
+											<tr>
+												<td></td>
+												<td>{{ pembayaran.bulan_yang_dibayar|date:"m/Y" }}</td>
+												<td>{{ pembayaran.nominal_yang_dibayar|intcomma }}</td>
+												<td>{{ pembayaran.tanggal_pembayaran|date:"d-m-Y " }}</td>
+												<td>
+													<a href="{% url "app_bpp:ubah_riwayat_pembayaran" id_siswa=siswa.pk pk=pembayaran.pk %}" class="btn btn-custon-three btn-warning" style="color: white;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Ubah</a>
+
+													<a onclick="return confirm('hapus riwayat pembayaran untuk bulan {{ pembayaran.bulan_yang_dibayar|date:"m/Y" }}?')" href="{% url "app_bpp:hapus_riwayat_pembayaran" id_siswa=pembayaran.id_siswa pk=pembayaran.pk %}" class="btn btn-custon-three btn-danger" style="color: white;"><i class="fa fa-trash-o" aria-hidden="true"></i> Hapus</a>
+												</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>	
+{% endblock content %}

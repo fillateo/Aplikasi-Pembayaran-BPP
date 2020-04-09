@@ -1,0 +1,27 @@
+{% load static %}
+<!-- Start Left menu area -->
+<div class="left-sidebar-pro">
+    <nav id="sidebar" class="">
+        <div class="sidebar-header">
+            <h4 style="margin-top: 8px;"><a href="{% url "app_bpp:home" %}"><img src="{% static "img/logo/logo-smk.jpg" %}" alt="" width="40" /> SMKN 1 Dompu</a></h4>
+        </div>
+        <div class="left-custom-menu-adp-wrap comment-scrollbar">
+            <nav class="sidebar-nav left-sidebar-menu-pro">
+                <ul class="metismenu" id="menu1">
+                    <li>
+                        <a title="Menu home BPP" href="{% url "app_bpp:home" %}" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap"></span> <span class="mini-click-non">Pembayaran BPP</span></a>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="all-students.html" aria-expanded="false"><span class="educate-icon educate-student icon-wrap"></span> <span class="mini-click-non">Kelola Data</span></a>
+                        <ul class="submenu-angle" aria-expanded="false">
+                            <li><a title="Edit Students" href="{% url "app_bpp:daftar_siswa" %}"><span class="mini-sub-pro">Siswa</span></a></li>
+                            <li><a title="Edit Students" href="{% url "app_bpp:daftar_kelas" %}"><span class="mini-sub-pro">Kelas</span></a></li>
+                            <li><a title="Edit Students" href="{% url "app_bpp:daftar_jurusan" %}"><span class="mini-sub-pro">Jurusan</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </nav>
+</div>
+    <!-- End Left menu area -->
