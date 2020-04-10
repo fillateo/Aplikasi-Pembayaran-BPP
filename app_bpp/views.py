@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+import datetime
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
@@ -9,7 +10,7 @@ from .models import *
 
 ############## Siswa & Pembayaran ##############
 
-# convert rupiah to integer
+# convert string (rupiah) to integer format
 def rupiah_to_integer(string):
 	return int(string.replace('Rp. ', '').replace(',00', '').replace('.', ''))
 
@@ -30,7 +31,7 @@ def tambah_siswa_view(request):
 		if request.POST:
 			messages.error(request, "Gagal menambahkan data!")
 
-	return render(request, 'app_bpp/form.html', {'form': form, 'header': 'Tambah siswa'})
+	return render(request, 'app_bpp/form_siswa.html', {'form': form, 'header': 'Tambah siswa'})
 
 @login_required
 def home_view(request):
@@ -50,7 +51,7 @@ def detail_siswa_dan_pembayaran_view(request, pk):
 
 		request.POST['nominal_yang_dibayar'] = rupiah_to_integer(request.POST['nominal_yang_dibayar'])
 		request.POST['id_siswa'] = pk
-		request.POST['bulan_yang_dibayar'] = "{}/{}".format(1, request.POST['bulan_yang_dibayar'])
+		request.POST['bulan_yang_dibayar'] = "{}/{}".format(1, request.POST['bulan_yang_dibayar']) # set to 1/mm/YYYY
 		request.POST['bulan_yang_dibayar'] = change_date_format(request.POST['bulan_yang_dibayar'])
 		request.POST['tanggal_pembayaran'] = change_date_format(request.POST['tanggal_pembayaran'])
 
@@ -59,11 +60,12 @@ def detail_siswa_dan_pembayaran_view(request, pk):
 
 	context = {
 		'siswa': siswa, 
-		# 'current_date': timezone.now(), 
+		'current_date': timezone.now().date().strftime("%d/%m/%Y"),
 		'form': form,
 		'riwayat_pembayaran': riwayat_pembayaran,
 	}
-	return render(request, 'app_bpp/detail.html', context)
+
+	return render(request, 'app_bpp/detail_pembayaran_siswa.html', context)
 
 @login_required
 def list_siswa_view(request):
@@ -88,12 +90,16 @@ def ubah_siswa_view(request, pk):
 		'form': form,
 		'header': 'Ubah siswa',
 	}
-	return render(request, 'app_bpp/form.html', context)
+	return render(request, 'app_bpp/form_siswa.html', context)
 
 @login_required
 def hapus_siswa_view(request, pk):
 	get_object_or_404(Siswa, pk=pk).delete()
-	get_object_or_404(Pembayaran, id_siswa=pk).delete()
+	pembayaran = Pembayaran.objects.filter(id_siswa=pk)
+
+	if len(pembayaran) > 0:
+		pembayaran.delete()
+
 	return redirect('app_bpp:daftar_siswa')
 
 @login_required
@@ -168,6 +174,11 @@ def ubah_kelas_view(request, pk):
 
 @login_required
 def hapus_kelas_view(request, pk):
+
+	# remove daftar pembayaran for siswa FOR current kelas
+	for siswa in Siswa.objects.filter(kelas=pk):
+		Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
+
 	get_object_or_404(Kelas, pk=pk).delete()
 	return redirect('app_bpp:daftar_kelas')
 
@@ -202,6 +213,7 @@ def ubah_jurusan_view(request, pk):
 	if form.is_valid():
 		form.save()
 		messages.success(request, 'Berhasil!')
+
 	else:
 		if request.method == "POST":
 			messages.error(request, 'Gagal!')
@@ -210,7 +222,38 @@ def ubah_jurusan_view(request, pk):
 
 @login_required
 def hapus_jurusan_view(request, pk):
+
+	# remove daftar pembayaran for siswa FOR current jurusan
+	for siswa in Siswa.objects.filter(jurusan=pk):
+		Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
+
 	get_object_or_404(Jurusan, pk=pk).delete()
 	return redirect('app_bpp:daftar_jurusan')
 
 ############## End Jurusan ##############
+
+############## Chart ##############
+
+def get_gte_yang_melakukan_pembayaran():
+	current_month = int(timezone.now().date().strftime("%m"))
+	current_year = int(timezone.now().date().strftime("%Y"))
+	pembayaran_bulan_ini_lebih = Pembayaran.objects.filter(bulan_yang_dibayar__gte=datetime.date(current_year, current_month, 1))
+	jumlah_siswa_yang_membayar_bulan_ini_lebih = len(pembayaran_bulan_ini_lebih.values("id_siswa").distinct())
+	return jumlah_siswa_yang_membayar_bulan_ini_lebih
+
+def get_le_yang_melakukan_pembayaan():
+	jumlah_siswa = len(Siswa.objects.all())
+	return jumlah_siswa - get_gte_yang_melakukan_pembayaran()
+
+def chart_view(request):
+	list_siswa = Siswa.objects.all()
+	list_kelas = list(set([siswa.kelas for siswa in list_siswa]))
+	context = {
+		'jumlah_siswa_yang_membayar_bulan_ini_lebih': get_gte_yang_melakukan_pembayaran(),
+		'jumlah_siswa_yang_tdk_membayar_bulan_ini_lebih': get_le_yang_melakukan_pembayaan(),
+		'list_kelas': list_kelas,
+		'jumlah_siswa': len(list_siswa),
+	}
+	return render(request, 'app_bpp/chart.html', context)
+
+############## End Chart ##############

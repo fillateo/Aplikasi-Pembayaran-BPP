@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- custom chart start-->
+<div class="pie-bar-line-area">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="sparkline10-list">
+					<div class="sparkline10-hd">
+						<div class="main-sparkline10-hd">
+							<h1>Pembayaran <span class="c3-ds-n">BPP</span> Hingga Bulan Ini</h1>
+							<h5>Jumlah Seluruh Siswa ({% for kelas in list_kelas %} {{ kelas }} {% endfor %}): {{ jumlah_siswa }}</h5>
+						</div>
+					</div>
+					<div class="sparkline10-graph">
+						<div id="pie"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- custom chart end-->
+{% endblock content %}

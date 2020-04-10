@@ -24,4 +24,6 @@ urlpatterns = [
 
 	url(r'^ubah_riwayat_pembayaran/(?P<id_siswa>\d+)/(?P<pk>\d+)/$', ubah_riwayat_pembayaran_view, name="ubah_riwayat_pembayaran"),
 	url(r'^hapus_riwayat_pembayaran/(?P<id_siswa>\d+)/(?P<pk>\d+)/$', hapus_riwayat_pembayaran_view, name="hapus_riwayat_pembayaran"),
+
+	url(r'^chart/$', chart_view, name="chart"),
 ]

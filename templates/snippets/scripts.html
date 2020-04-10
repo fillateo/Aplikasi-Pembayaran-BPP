@@ -66,6 +66,12 @@
         <script src="{% static "js/tawk-chat.js" %}"></script>
         {% endcomment %}
 
+         <!-- c3 JS
+            ============================================ -->
+            <script src="{% static "js/c3-charts/d3.min.js" %}"></script>
+            <script src="{% static "js/c3-charts/c3.min.js" %}"></script>
+            <script src="{% static "js/c3-charts/c3-active.js" %}"></script>
+
 <!-- data table JS
 	============================================ -->
 	<script src="{% static "js/data-table/bootstrap-table.js" %}"></script>
@@ -73,9 +79,9 @@
 	<script src="{% static "js/data-table/data-table-active.js" %}"></script>
     <script src="{% static "js/data-table/bootstrap-table-editable.js" %}"></script>
     <script src="{% static "js/data-table/bootstrap-editable.js" %}"></script>
-	<script src="{% static "js/data-table/bootstrap-table-resizable.js" %}"></script>
-	<script src="{% static "js/data-table/colResizable-1.5.source.js" %}"></script>
-	<script src="{% static "js/data-table/bootstrap-table-export.js" %}"></script>
+    <script src="{% static "js/data-table/bootstrap-table-resizable.js" %}"></script>
+    <script src="{% static "js/data-table/colResizable-1.5.source.js" %}"></script>
+    <script src="{% static "js/data-table/bootstrap-table-export.js" %}"></script>
     <script src="{% static "js/duallistbox/jquery.bootstrap-duallistbox.js" %}"></script>
     <script src="{% static "js/duallistbox/duallistbox.active.js" %}"></script>
 
@@ -95,3 +101,26 @@
             $('#rupiah').autoNumeric('init');
         });
         </script>
+
+        <script>
+        (function ($) {
+         "use strict";
+
+         c3.generate({
+            bindto: '#pie',
+            data:{
+                columns: [
+                ['Siswa yang telah membayar hingga bulan ini', {{ jumlah_siswa_yang_membayar_bulan_ini_lebih }}],
+                ['Siswa yang belum membayar hingga bulan ini', {{ jumlah_siswa_yang_tdk_membayar_bulan_ini_lebih }}]
+                ],
+                colors:{
+                    data1: '#006DF0',
+                    data2: '#933EC5'
+                },
+                type : 'pie'
+            }
+        });
+
+
+     })(jQuery); 
+     </script>

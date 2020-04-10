@@ -6,4 +6,4 @@ from .models import *
 admin.site.register(Kelas)
 admin.site.register(Jurusan)
 admin.site.register(Siswa)
-# admin.site.register(Pembayaran)
+admin.site.register(Pembayaran)

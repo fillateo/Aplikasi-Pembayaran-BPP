@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+
 {% load humanize %}
+
 {% block breadcrumb %}
 <li class="breadcrumb-item active" aria-current="page">Pembayaran BPP</li>
 {% endblock breadcrumb %}
@@ -20,43 +22,42 @@
 							<div id="toolbar">
 								<select class="form-control dt-tb">
 									<option value="">Export Basic</option>
-									<option value="all">Export All</option>
-									<option value="selected">Export Selected</option>
+									<option value="all">Export semua</option>
+									<option value="selected">Export yang dicentang</option>
 								</select>
 							</div>
 							<table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true"
 							data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-							<thead>
-								<tr>
-									<th data-field="state" data-checkbox="true"></th>
-									<th data-field="no">No.</th>
-									<th data-field="nama">Nama</th>
-									<th data-field="kelas">Kelas</th>
-									<th data-field="jurusan">Komp. Keahlian</th>
-									<th data-field="aksi">Act.</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for siswa in daftar_siswa %}									
-								<tr>
-									<td></td>
-									<td>{{ forloop.counter }}.</td>
-									<td>{{ siswa.nama }}</td>
-									<td>{{ siswa.kelas }}</td>
-									<td>{{ siswa.jurusan }}</td>
-									<td>
-										<a href="{% url "app_bpp:detail_siswa" siswa.pk %}" class="btn btn-custon-three btn-primary" style="color: white;"><i class="fa fa-info-circle edu-informatio" aria-hidden="true"></i>  Detail & Pembayaran</a>
-									</td>
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
+								<thead>
+									<tr>
+										<th data-field="state" data-checkbox="true"></th>
+										<th data-field="no">No.</th>
+										<th data-field="nama">Nama</th>
+										<th data-field="kelas">Kelas</th>
+										<th data-field="jurusan">Komp. Keahlian</th>
+										<th data-field="aksi">Act.</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for siswa in daftar_siswa %}									
+									<tr>
+										<td></td>
+										<td>{{ forloop.counter }}.</td>
+										<td>{{ siswa.nama }}</td>
+										<td>{{ siswa.kelas }}</td>
+										<td>{{ siswa.jurusan }}</td>
+										<td>
+											<a href="{% url "app_bpp:detail_siswa" siswa.pk %}" class="btn btn-custon-three btn-primary" style="color: white;"><i class="fa fa-info-circle edu-informatio" aria-hidden="true"></i>  Detail & Pembayaran</a>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
-
 {% endblock content %}}
