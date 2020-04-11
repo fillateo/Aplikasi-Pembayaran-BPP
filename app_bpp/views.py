@@ -272,6 +272,4 @@ def chart_view(request):
 
 	return render(request, 'app_bpp/chart.html', context)
 
-
-
 ############## End Chart ##############

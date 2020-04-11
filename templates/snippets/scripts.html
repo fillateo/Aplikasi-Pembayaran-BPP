@@ -134,11 +134,14 @@
             datasets: [{
                 label: 'pie Chart',
                 backgroundColor: [
-                    '#303030',
-                    '#933EC5',
-                    '#65b12d',
-                    '#D80027',
-                    '#006DF0'
+                    'red',
+                    'green',
+                    'blue',
+                    'cyan',
+                    'magenta',
+                    'yellow',
+                    'orange',
+                    'pastel',
                 ],
                 data: [{% for key in lunas_bulan_ini.values %}"{{ key }}",{% endfor %}]
             }]
