@@ -66,6 +66,11 @@
         <script src="{% static "js/tawk-chat.js" %}"></script>
         {% endcomment %}
 
+          <!-- Charts JS
+            ============================================ -->
+            <script src="{% static "js/charts/Chart.js" %}"></script>
+            <script src="{% static "js/charts/rounded-chart.js" %}"></script>
+
          <!-- c3 JS
             ============================================ -->
             <script src="{% static "js/c3-charts/d3.min.js" %}"></script>
@@ -104,10 +109,10 @@
 
         <script>
         (function ($) {
-         "use strict";
+           "use strict";
 
-         c3.generate({
-            bindto: '#pie',
+           c3.generate({
+            bindto: '#pembayaran-total',
             data:{
                 columns: [
                 ['Siswa yang telah membayar hingga bulan ini', {{ jumlah_siswa_yang_membayar_bulan_ini_lebih }}],
@@ -121,6 +126,28 @@
             }
         });
 
+            var ctx = document.getElementById("piechart");
+    var piechart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [{% for key in lunas_bulan_ini.keys %}"{{ key }}",{% endfor %}],
+            datasets: [{
+                label: 'pie Chart',
+                backgroundColor: [
+                    '#303030',
+                    '#933EC5',
+                    '#65b12d',
+                    '#D80027',
+                    '#006DF0'
+                ],
+                data: [{% for key in lunas_bulan_ini.values %}"{{ key }}",{% endfor %}]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
 
-     })(jQuery); 
-     </script>
+
+       })(jQuery);
+       </script>

@@ -4,27 +4,27 @@
 	 /*----------------------------------------*/
 	/*  1.  pie Chart
 	/*----------------------------------------*/
-	var ctx = document.getElementById("piechart");
-	var piechart = new Chart(ctx, {
-		type: 'pie',
-		data: {
-			labels: ["Red", "Orange", "Yellow", "Green", "Blue"],
-			datasets: [{
-				label: 'pie Chart',
-                backgroundColor: [
-					'#303030',
-					'#933EC5',
-					'#65b12d',
-					'#D80027',
-					'#006DF0'
-				],
-				data: [10, 20, 30, 40, 60]
-            }]
-		},
-		options: {
-			responsive: true
-		}
-	});
+	// var ctx = document.getElementById("piechart");
+	// var piechart = new Chart(ctx, {
+	// 	type: 'pie',
+	// 	data: {
+	// 		labels: ["Teknik Komputer dan Jaringan", "Tata Boga", "Tata Busana", "Green", "Blue"],
+	// 		datasets: [{
+	// 			label: 'pie Chart',
+ //                backgroundColor: [
+	// 				'#303030',
+	// 				'#933EC5',
+	// 				'#65b12d',
+	// 				'#D80027',
+	// 				'#006DF0'
+	// 			],
+	// 			data: [10, 20, 30, 40, 60]
+ //            }]
+	// 	},
+	// 	options: {
+	// 		responsive: true
+	// 	}
+	// });
 	 /*----------------------------------------*/
 	/*  2.  polar Chart
 	/*----------------------------------------*/

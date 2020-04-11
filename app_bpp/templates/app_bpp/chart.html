@@ -5,21 +5,36 @@
 <div class="pie-bar-line-area">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+				<div class="sparkline10-list">
+					<div class="sparkline10-hd">
+						<div class="charts-single-pro responsive-mg-b-30">
+							<div class="alert-title">
+								<h2>Yang Lunas Bulan Ini</h2>
+							</div>
+							<div id="pie-chart">
+								<canvas id="piechart"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
 				<div class="sparkline10-list">
 					<div class="sparkline10-hd">
 						<div class="main-sparkline10-hd">
 							<h1>Pembayaran <span class="c3-ds-n">BPP</span> Hingga Bulan Ini</h1>
-							<h5>Jumlah Seluruh Siswa ({% for kelas in list_kelas %} {{ kelas }} {% endfor %}): {{ jumlah_siswa }}</h5>
+							<h5>Jumlah Seluruh Siswa (Kelas {% for kelas in list_kelas %} {{ kelas }} {% endfor %}): {{ jumlah_siswa }}</h5>
+							<h5>Siswa yang membayar hingga bulan ini: {{ jumlah_siswa_yang_membayar_bulan_ini_lebih }}</h5>
+							<h5>Siswa yang belum membayar hingga bulan ini: {{ jumlah_siswa_yang_tdk_membayar_bulan_ini_lebih }}</h5>
 						</div>
 					</div>
 					<div class="sparkline10-graph">
-						<div id="pie"></div>
+						<div id="pembayaran-total"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- custom chart end-->
 {% endblock content %}

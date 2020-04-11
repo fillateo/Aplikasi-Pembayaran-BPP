@@ -238,22 +238,40 @@ def get_gte_yang_melakukan_pembayaran():
 	current_month = int(timezone.now().date().strftime("%m"))
 	current_year = int(timezone.now().date().strftime("%Y"))
 	pembayaran_bulan_ini_lebih = Pembayaran.objects.filter(bulan_yang_dibayar__gte=datetime.date(current_year, current_month, 1))
-	jumlah_siswa_yang_membayar_bulan_ini_lebih = len(pembayaran_bulan_ini_lebih.values("id_siswa").distinct())
+	jumlah_siswa_yang_membayar_bulan_ini_lebih = pembayaran_bulan_ini_lebih.values("id_siswa").distinct()
 	return jumlah_siswa_yang_membayar_bulan_ini_lebih
 
 def get_le_yang_melakukan_pembayaan():
 	jumlah_siswa = len(Siswa.objects.all())
-	return jumlah_siswa - get_gte_yang_melakukan_pembayaran()
+	return jumlah_siswa - len(get_gte_yang_melakukan_pembayaran())
+
+def lunas_hingga_bulan_ini_per_jurusan():
+	data = dict()
+
+	for jurusan in Jurusan.objects.values_list("nama", flat=True):
+		data[jurusan] = 0
+
+	for siswa in get_gte_yang_melakukan_pembayaran():
+		jurusan = Siswa.objects.get(pk=siswa['id_siswa']).jurusan
+
+		if str(jurusan) in data.keys():
+			data[str(jurusan)] += 1
+
+	return data
 
 def chart_view(request):
 	list_siswa = Siswa.objects.all()
 	list_kelas = list(set([siswa.kelas for siswa in list_siswa]))
 	context = {
-		'jumlah_siswa_yang_membayar_bulan_ini_lebih': get_gte_yang_melakukan_pembayaran(),
+		'jumlah_siswa_yang_membayar_bulan_ini_lebih': len(get_gte_yang_melakukan_pembayaran()),
 		'jumlah_siswa_yang_tdk_membayar_bulan_ini_lebih': get_le_yang_melakukan_pembayaan(),
 		'list_kelas': list_kelas,
 		'jumlah_siswa': len(list_siswa),
+		'lunas_bulan_ini': lunas_hingga_bulan_ini_per_jurusan(),
 	}
+
 	return render(request, 'app_bpp/chart.html', context)
+
+
 
 ############## End Chart ##############
