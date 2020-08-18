@@ -21,6 +21,11 @@ class UbahKelasTest(UbahKelasTestCase):
     def test_success_status_code(self):
         self.assertEqual(self.response.status_code, 200)
 
+    def test_not_found_status_code(self):
+        not_found_url = reverse('app_bpp:ubah_kelas', kwargs={'pk': 99})
+        not_found_response = self.client.get(not_found_url)
+        self.assertEqual(not_found_response.status_code, 404)
+
     def test_resolve(self):
         self.assertEqual(resolve(self.url).func, ubah_kelas_view)
 

@@ -178,8 +178,11 @@ def ubah_kelas_view(request, pk):
 def hapus_kelas_view(request, pk):
 
 	# remove daftar pembayaran for siswa FOR current kelas
-	for siswa in Siswa.objects.filter(kelas=pk):
-		Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
+	try:
+		for siswa in Siswa.objects.filter(kelas=pk):
+			Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
+	except:
+		pass
 
 	get_object_or_404(Kelas, pk=pk).delete()
 	return redirect('app_bpp:daftar_kelas')
