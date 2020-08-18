@@ -59,7 +59,7 @@ def detail_siswa_dan_pembayaran_view(request, pk):
 			form.save()
 
 	context = {
-		'siswa': siswa, 
+		'siswa': siswa,
 		'current_date': timezone.now().date().strftime("%d/%m/%Y"),
 		'form': form,
 		'riwayat_pembayaran': riwayat_pembayaran,
@@ -83,7 +83,7 @@ def ubah_siswa_view(request, pk):
 	if form.is_valid():
 		form.save()
 		messages.success(request, 'Siswa telah dirubah!')
-		return redirect('/ubah_siswa/{}/'.format(pk))	
+		return redirect('/ubah_siswa/{}/'.format(pk))
 
 	context = {
 		'siswa': siswa,
@@ -147,6 +147,7 @@ def tambah_kelas_view(request):
 	if form.is_valid():
 		form.save()
 		return redirect('app_bpp:daftar_kelas')
+	return render(request, 'app_bpp/form_kelas.html', {'form': form})
 
 @login_required
 def list_kelas_view(request):
