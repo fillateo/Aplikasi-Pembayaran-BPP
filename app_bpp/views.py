@@ -167,6 +167,7 @@ def ubah_kelas_view(request, pk):
 	if form.is_valid():
 		form.save()
 		messages.success(request, 'Berhasil!')
+		return redirect('/ubah_kelas/{}/'.format(pk))
 	else:
 		if request.method == "POST":
 			messages.error(request, 'Gagal!')
