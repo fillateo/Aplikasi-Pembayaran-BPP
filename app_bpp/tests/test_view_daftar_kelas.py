@@ -39,5 +39,8 @@ class DaftarKelasTest(TestCase):
         form = self.response.context.get('form')
         self.assertIsInstance(form, KelasForm)
 
+    def test_contains_inputs(self):
+        self.assertContains(self.response, '<input')
+
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
