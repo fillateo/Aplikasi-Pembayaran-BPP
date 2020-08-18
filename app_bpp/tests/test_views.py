@@ -55,6 +55,9 @@ class TambahKelasTests(TestCase):
     def test_tambah_kelas_contains_form(self):
         self.assertIsInstance(self.response.context.get('form'), KelasForm)
 
+    def contains_input(self):
+        self.assertContains(self.response, '<input')
+
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
 
@@ -65,8 +68,11 @@ class TambahKelasTests(TestCase):
         post_response = self.client.post(self.url, kelas)
         self.assertEqual(Kelas.objects.first().nama, 'X')
         self.assertEqual(post_response.status_code, 302)
+        self.assertRedirects(post_response, reverse('app_bpp:daftar_kelas'))
 
     def test_add_new_kelas_invalid_data(self):
         post_response = self.client.post(self.url, {})
+        form = KelasForm(data={})
         self.assertEqual(Kelas.objects.count(), 0)
+        self.assertTrue(form.errors)
         self.assertEqual(post_response.status_code, 200)
