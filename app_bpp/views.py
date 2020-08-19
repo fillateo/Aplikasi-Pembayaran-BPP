@@ -84,6 +84,8 @@ def ubah_siswa_view(request, pk):
 		form.save()
 		messages.success(request, 'Siswa telah dirubah!')
 		return redirect('/ubah_siswa/{}/'.format(pk))
+	# else:
+	# 	return HttpResponse('Invalid!')
 
 	context = {
 		'siswa': siswa,
