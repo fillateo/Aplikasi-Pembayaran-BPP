@@ -108,7 +108,7 @@ def hapus_siswa_view(request, pk):
 
 @login_required
 def ubah_riwayat_pembayaran_view(request, id_siswa, pk):
-	riwayat_pembayaran = Pembayaran.objects.get(id_siswa=id_siswa, pk=pk)
+	riwayat_pembayaran = get_object_or_404(Pembayaran, id_siswa=id_siswa, pk=pk)
 	siswa = Siswa.objects.get(pk=riwayat_pembayaran.id_siswa)
 	form = PembayaranForm(request.POST or None, instance=riwayat_pembayaran)
 
@@ -125,7 +125,7 @@ def ubah_riwayat_pembayaran_view(request, id_siswa, pk):
 
 		if form.is_valid():
 			form.save()
-			return redirect('/detail_siswa/{}/'.format(siswa.id))
+			return redirect(reverse('app_bpp:detail_siswa', kwargs={'pk': siswa.id}))
 
 	context = {
 		'riwayat_pembayaran': riwayat_pembayaran,
