@@ -221,6 +221,7 @@ def ubah_jurusan_view(request, pk):
 	if form.is_valid():
 		form.save()
 		messages.success(request, 'Berhasil!')
+		return redirect('app_bpp:daftar_jurusan')
 
 	else:
 		if request.method == "POST":
