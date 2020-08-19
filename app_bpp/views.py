@@ -199,6 +199,9 @@ def tambah_jurusan_view(request):
 		form.save()
 		messages.success(request, request.POST['nama'])
 		return redirect('app_bpp:daftar_jurusan')
+	else:
+		from django.http import HttpResponse
+		return HttpResponse('Invalid data!')
 
 @login_required
 def list_jurusan_view(request):
