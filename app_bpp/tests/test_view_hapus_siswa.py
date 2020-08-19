@@ -38,3 +38,11 @@ class HapusSiswaTest(TestCase):
 
     def test_successful_delete_pembayaran_if_exists(self):
         self.assertFalse(Pembayaran.objects.filter(id_siswa=self.siswa.pk).exists())
+
+
+class LoginRequiredHapusSiswaTest(TestCase):
+    def test_redirection(self):
+        url = reverse('app_bpp:hapus_siswa', kwargs={'pk': 1})
+        response = self.client.get(url)
+        login_url = reverse('accounts:login')
+        self.assertRedirects(response, "{}?next={}".format(login_url, url))
