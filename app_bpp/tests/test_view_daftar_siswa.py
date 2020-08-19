@@ -31,3 +31,11 @@ class DaftarSiswaTest(TestCase):
 
     def test_contains_link_to_tambah_siswa(self):
         self.assertContains(self.response, 'href="{}"'.format(reverse('app_bpp:tambah_siswa')))
+
+
+class LoginRequiredDaftarSiswa(TestCase):
+    def test_redirection(self):
+        url = reverse('app_bpp:daftar_siswa')
+        response = self.client.get(url)
+        login_url = reverse('accounts:login')
+        self.assertRedirects(response, "{}?next={}".format(login_url, url))
