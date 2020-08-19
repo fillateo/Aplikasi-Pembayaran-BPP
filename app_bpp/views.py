@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 import datetime
+from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
@@ -57,6 +58,7 @@ def detail_siswa_dan_pembayaran_view(request, pk):
 
 		if form.is_valid():
 			form.save()
+			return redirect(reverse('app_bpp:detail_siswa', kwargs={'pk': pk}))
 
 	context = {
 		'siswa': siswa,
