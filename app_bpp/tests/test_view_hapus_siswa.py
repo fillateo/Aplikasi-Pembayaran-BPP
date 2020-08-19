@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse, resolve
 from django.utils import timezone
 from ..models import Siswa, Kelas, Jurusan, Pembayaran
+from ..views import hapus_siswa_view
 
 
 class HapusSiswaTest(TestCase):
@@ -20,6 +21,9 @@ class HapusSiswaTest(TestCase):
                                     tanggal_pembayaran=timezone.now().date())
         self.url = reverse('app_bpp:hapus_siswa', kwargs={'pk': self.siswa.pk})
         self.response = self.client.get(self.url)
+
+    def test_resolve(self):
+        self.assertEquals(resolve(self.url).func, hapus_siswa_view)
 
     def test_redirection(self):
         self.assertRedirects(self.response, reverse('app_bpp:daftar_siswa'))
