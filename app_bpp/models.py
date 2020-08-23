@@ -3,7 +3,7 @@ from django.db import models
 
 class Kelas(models.Model):
 	nama = models.CharField(max_length=100)
-	
+
 	class Meta:
 		verbose_name_plural = "Daftar Kelas"
 

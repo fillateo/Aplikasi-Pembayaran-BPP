@@ -138,7 +138,7 @@ def ubah_riwayat_pembayaran_view(request, id_siswa, pk):
 @login_required
 def hapus_riwayat_pembayaran_view(request, id_siswa, pk):
 	get_object_or_404(Pembayaran, id_siswa=id_siswa, pk=pk).delete()
-	return redirect('/detail_siswa/{}'.format(id_siswa))
+	return redirect(reverse('app_bpp:detail_siswa', kwargs={'pk': id_siswa}))
 
 ############## End Siswa & Pembayaran ##############
 
@@ -182,11 +182,9 @@ def ubah_kelas_view(request, pk):
 def hapus_kelas_view(request, pk):
 
 	# remove daftar pembayaran for siswa FOR current kelas
-	try:
-		for siswa in Siswa.objects.filter(kelas=pk):
+	for siswa in Siswa.objects.filter(kelas=pk):
+		if Pembayaran.objects.exists():
 			Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
-	except:
-		pass
 
 	get_object_or_404(Kelas, pk=pk).delete()
 	return redirect('app_bpp:daftar_kelas')
@@ -238,7 +236,8 @@ def hapus_jurusan_view(request, pk):
 
 	# remove daftar pembayaran for siswa FOR current jurusan
 	for siswa in Siswa.objects.filter(jurusan=pk):
-		Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
+		if Pembayaran.objects.exists():
+			Pembayaran.objects.filter(id_siswa=siswa.pk).delete()
 
 	get_object_or_404(Jurusan, pk=pk).delete()
 	return redirect('app_bpp:daftar_jurusan')
@@ -258,20 +257,21 @@ def get_le_yang_melakukan_pembayaan():
 	jumlah_siswa = len(Siswa.objects.all())
 	return jumlah_siswa - len(get_gte_yang_melakukan_pembayaran())
 
-def lunas_hingga_bulan_ini_per_jurusan():
-	data = dict()
+# def lunas_hingga_bulan_ini_per_jurusan():
+# 	data = dict()
+#
+# 	for jurusan in Jurusan.objects.values_list("nama", flat=True):
+# 		data[jurusan] = 0
+#
+# 	for siswa in get_gte_yang_melakukan_pembayaran():
+# 		jurusan = Siswa.objects.get(pk=siswa['id_siswa']).jurusan
+#
+# 		if str(jurusan) in data.keys():
+# 			data[str(jurusan)] += 1
+#
+# 	return data
 
-	for jurusan in Jurusan.objects.values_list("nama", flat=True):
-		data[jurusan] = 0
-
-	for siswa in get_gte_yang_melakukan_pembayaran():
-		jurusan = Siswa.objects.get(pk=siswa['id_siswa']).jurusan
-
-		if str(jurusan) in data.keys():
-			data[str(jurusan)] += 1
-
-	return data
-
+@login_required
 def chart_view(request):
 	list_siswa = Siswa.objects.all()
 	list_kelas = list(set([siswa.kelas for siswa in list_siswa]))
@@ -280,7 +280,7 @@ def chart_view(request):
 		'jumlah_siswa_yang_tdk_membayar_bulan_ini_lebih': get_le_yang_melakukan_pembayaan(),
 		'list_kelas': list_kelas,
 		'jumlah_siswa': len(list_siswa),
-		'lunas_bulan_ini': lunas_hingga_bulan_ini_per_jurusan(),
+		# 'lunas_bulan_ini': lunas_hingga_bulan_ini_per_jurusan(),
 	}
 
 	return render(request, 'app_bpp/chart.html', context)

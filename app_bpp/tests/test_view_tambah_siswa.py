@@ -52,10 +52,14 @@ class DaftarSiswaTest(TestCase):
         self.assertRedirects(self.response, self.url)
 
     def test_invalid_post_data(self):
-        self.response = self.client.post(self.url, {})
+        from django.contrib.messages import get_messages
+
+        self.response = self.client.post(self.url, {'sdfsdf': 'sdfsfd'})
+        messages = list(get_messages(self.response.wsgi_request))
         self.assertTrue(Siswa.objects.count() == 0)
         self.assertEquals(self.response.status_code, 200)
-
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Gagal menambahkan data!')
 
 class LoginRequiredTambahSiswa(TestCase):
     def test_redirection(self):
