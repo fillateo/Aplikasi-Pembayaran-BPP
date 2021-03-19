@@ -47,7 +47,7 @@ oauthlib==1.0.3
 onboard==1.2.0
 padme==1.1.1
 pexpect==4.0.1
-Pillow==3.1.2
+Pillow==8.1.1
 pipenv==2018.11.26
 plainbox==0.25
 powerline-status==2.3
