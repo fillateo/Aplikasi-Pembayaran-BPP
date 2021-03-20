@@ -33,7 +33,7 @@ httplib2==0.9.1
 idna==2.8
 indicator-cpufreq==0.2.2
 ipython==2.4.1
-Jinja2==2.8
+Jinja2==2.11.3
 language-selector==0.1
 lightdm-gtk-greeter-settings==1.2.1
 louis==2.6.4
