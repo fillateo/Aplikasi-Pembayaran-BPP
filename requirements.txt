@@ -12,7 +12,7 @@ cryptography==1.2.3
 decorator==4.0.6
 defer==1.0.6
 dj-database-url==0.4.2
-Django==1.11.6
+Django==2.2.24
 django-ckeditor==5.4.0
 django-cleanup==2.1.0
 django-crispy-forms==1.7.2
